@@ -10,8 +10,8 @@ import React from 'react';
 import {Home, ProductDetails} from './src/screens';
 
 const App = () => {
-  // return <Home />;
-  return <ProductDetails />;
+  return <Home />;
+  // return <ProductDetails />;
 };
 
 export default App;

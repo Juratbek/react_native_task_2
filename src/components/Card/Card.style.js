@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
   },
   card: {
     width: 158,
-    height: 160,
+    minHeight: 160,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -28,19 +28,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   image: {
-    width: 100,
-    height: 100,
+    width: '100%',
+    minHeight: 100,
   },
   bold: {
     fontWeight: 'bold',
-  },
-  discount: {
-    color: '#00A8F3',
-    marginLeft: 10,
-  },
-  lined: {
-    color: 'lightgray',
-    textDecorationLine: 'line-through',
-    marginLeft: 10,
   },
 });

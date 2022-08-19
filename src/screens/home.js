@@ -6,42 +6,34 @@
  * @flow strict-local
  */
 
-import React from 'react';
-import {View, StyleSheet, SafeAreaView} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 import {Card, Navbar, SearchInput} from '../components';
-
-const list = [
-  {
-    imgSource: require('../assets/xiaomi.png'),
-    cost: 244,
-    currentCost: 222,
-    salePercent: 9,
-  },
-  {
-    imgSource: require('../assets/oppo.png'),
-    cost: 200,
-    currentCost: 150,
-    salePercent: 25,
-  },
-  {
-    imgSource: require('../assets/iphone.png'),
-    cost: 749,
-    currentCost: 849,
-  },
-];
+import {product} from '../services';
 
 export const Home = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    product
+      .get()
+      .then(res => res.json())
+      .then(data => setProducts(data.data));
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <Navbar />
       <View style={styles.search}>
         <SearchInput />
       </View>
-      <View style={styles.list}>
-        {list.map((item, index) => (
-          <Card key={index} {...item} />
-        ))}
-      </View>
+      <ScrollView>
+        <View style={styles.list}>
+          {products.map((item, index) => (
+            <Card key={index} {...item} />
+          ))}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
