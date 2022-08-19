@@ -7,19 +7,37 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  RefreshControl,
+} from 'react-native';
 import {Card, Navbar, SearchInput} from '../components';
 import {product} from '../services';
+import {wait} from '../utils/wait';
 
 export const Home = () => {
   const [products, setProducts] = useState([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  useEffect(() => {
+  const fetchData = () => {
     product
       .get()
       .then(res => res.json())
       .then(data => setProducts(data.data));
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
+
+  const onRefresh = () => {
+    setIsRefreshing(true);
+    fetchData();
+    wait(2000).then(() => setIsRefreshing(false));
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -27,7 +45,10 @@ export const Home = () => {
       <View style={styles.search}>
         <SearchInput />
       </View>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+        }>
         <View style={styles.list}>
           {products.map((item, index) => (
             <Card key={index} {...item} />

@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from 'react-native';
 import {Back, Basket} from '../assets/icons';
 import {Carousel} from '../components';
 
@@ -14,31 +21,33 @@ export const ProductDetails = () => {
         </View>
       </View>
       <View style={styles.container}>
-        <Carousel />
-        <View style={styles.detail}>
-          <Text>Xiaomi Mi A3</Text>
-          <View style={styles.text}>
-            <Text style={styles.bold}>$222</Text>
-            <Text style={{...styles.lined, ...styles.bold}}>$244</Text>
-            <Text style={{...styles.discount, ...styles.bold}}>9% Off</Text>
+        <ScrollView style={{marginBottom: 40}}>
+          <Carousel />
+          <View style={styles.detail}>
+            <Text>Xiaomi Mi A3</Text>
+            <View style={styles.text}>
+              <Text style={styles.bold}>$222</Text>
+              <Text style={{...styles.lined, ...styles.bold}}>$244</Text>
+              <Text style={{...styles.discount, ...styles.bold}}>9% Off</Text>
+            </View>
           </View>
-        </View>
-        <View style={styles.detail}>
-          <Text style={styles.title}>Select Color</Text>
-          <View style={styles.color}>
-            <Text>Blue</Text>
+          <View style={styles.detail}>
+            <Text style={styles.title}>Select Color</Text>
+            <View style={styles.color}>
+              <Text>Blue</Text>
+            </View>
           </View>
-        </View>
-        <View style={styles.detail}>
-          <Text style={styles.title}>Description</Text>
-          <Text>
-            The phone features a 6.088 inch HD+ (1560 x 720 pixel) resolution,
-            283ppi Super AMOLED display, a glass and plastic body, with Corning
-            Gorilla Glass 5 protection on its front as well as its back. It is
-            powered by a Qualcomm Snapdragon 665 SoC. It also has a 2.0, Type-C
-            1.0 reversible connector.
-          </Text>
-        </View>
+          <View style={styles.detail}>
+            <Text style={styles.title}>Description</Text>
+            <Text>
+              The phone features a 6.088 inch HD+ (1560 x 720 pixel) resolution,
+              283ppi Super AMOLED display, a glass and plastic body, with
+              Corning Gorilla Glass 5 protection on its front as well as its
+              back. It is powered by a Qualcomm Snapdragon 665 SoC. It also has
+              a 2.0, Type-C 1.0 reversible connector.
+            </Text>
+          </View>
+        </ScrollView>
         <TouchableOpacity style={styles.addBtn}>
           <Text style={{color: 'white'}}>ADD TO CART</Text>
         </TouchableOpacity>
