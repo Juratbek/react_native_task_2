@@ -8,7 +8,7 @@
 
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, SafeAreaView, FlatList} from 'react-native';
-import {Card, Navbar, SearchInput} from '../components';
+import {Card, SearchInput} from '../components';
 import {product} from '../services';
 
 export const Home = ({navigation}) => {
