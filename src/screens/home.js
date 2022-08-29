@@ -11,7 +11,7 @@ import {View, StyleSheet, SafeAreaView, FlatList} from 'react-native';
 import {Card, Navbar, SearchInput} from '../components';
 import {product} from '../services';
 
-export const Home = () => {
+export const Home = ({navigation}) => {
   const [products, setProducts] = useState([]);
 
   const fetchData = () => {
@@ -27,14 +27,13 @@ export const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Navbar />
       <View style={styles.search}>
         <SearchInput />
       </View>
       <FlatList
         numColumns={2}
         data={products}
-        renderItem={({item}) => <Card {...item} />}
+        renderItem={({item}) => <Card navigation={navigation} {...item} />}
         scrollEnabled={true}
         contentContainerStyle={styles.list}
       />

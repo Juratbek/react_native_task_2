@@ -4,10 +4,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image,
   ScrollView,
 } from 'react-native';
-import {Back, Basket} from '../assets/icons';
 import {Carousel} from '../components';
 import {product as productApi} from '../services';
 
@@ -29,13 +27,6 @@ export const ProductDetails = () => {
 
   return (
     <View style={styles.screen}>
-      <View style={styles.navbar}>
-        <Back />
-        <View style={styles.icons}>
-          <Image source={require('../assets/heart.png')} />
-          <Basket />
-        </View>
-      </View>
       <View style={styles.container}>
         <ScrollView style={{marginBottom: 40}}>
           <Carousel images={relationships?.images?.data} />
@@ -123,19 +114,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     borderRadius: 4,
-  },
-  navbar: {
-    width: '100%',
-    height: 55,
-    flexDirection: 'row',
-    backgroundColor: '#008ACE',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 16,
-  },
-  icons: {
-    flexDirection: 'row',
-    width: 75,
-    justifyContent: 'space-between',
   },
 });

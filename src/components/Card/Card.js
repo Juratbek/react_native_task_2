@@ -1,17 +1,21 @@
 import React from 'react';
-import {View, Image, Text} from 'react-native';
+import {View, Image, Text, TouchableOpacity} from 'react-native';
 import {IMG_BASE_URL} from '../../services/constants';
 import {styles} from './Card.style';
 
-export const Card = ({attributes, relationships}) => {
+export const Card = ({attributes, relationships, navigation}) => {
   const {name, display_price} = attributes;
   const {
     images: {data},
   } = relationships;
 
+  const clickHandler = () => {
+    navigation.navigate('ProductDetails');
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.card}>
+      <TouchableOpacity style={styles.card} onPress={clickHandler}>
         <View style={styles.imgBlock}>
           <Image
             style={styles.image}
@@ -24,7 +28,7 @@ export const Card = ({attributes, relationships}) => {
             <Text style={styles.bold}>{display_price}</Text>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
