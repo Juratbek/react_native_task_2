@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -9,8 +9,24 @@ import {
 } from 'react-native';
 import {Back, Basket} from '../assets/icons';
 import {Carousel} from '../components';
+import {product as productApi} from '../services';
 
 export const ProductDetails = () => {
+  const [product, setProduct] = useState({});
+  const {attributes} = product;
+
+  const fetchData = () => {
+    productApi
+      .get(1)
+      .then(res => res.json())
+      .then(data => setProduct(data.data))
+      .catch(console.error);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <View style={styles.screen}>
       <View style={styles.navbar}>
@@ -24,11 +40,9 @@ export const ProductDetails = () => {
         <ScrollView style={{marginBottom: 40}}>
           <Carousel />
           <View style={styles.detail}>
-            <Text>Xiaomi Mi A3</Text>
+            <Text>{attributes?.name}</Text>
             <View style={styles.text}>
-              <Text style={styles.bold}>$222</Text>
-              <Text style={{...styles.lined, ...styles.bold}}>$244</Text>
-              <Text style={{...styles.discount, ...styles.bold}}>9% Off</Text>
+              <Text style={styles.bold}>{attributes?.display_price}</Text>
             </View>
           </View>
           <View style={styles.detail}>
@@ -39,13 +53,7 @@ export const ProductDetails = () => {
           </View>
           <View style={styles.detail}>
             <Text style={styles.title}>Description</Text>
-            <Text>
-              The phone features a 6.088 inch HD+ (1560 x 720 pixel) resolution,
-              283ppi Super AMOLED display, a glass and plastic body, with
-              Corning Gorilla Glass 5 protection on its front as well as its
-              back. It is powered by a Qualcomm Snapdragon 665 SoC. It also has
-              a 2.0, Type-C 1.0 reversible connector.
-            </Text>
+            <Text>{attributes?.description}</Text>
           </View>
         </ScrollView>
         <TouchableOpacity style={styles.addBtn}>
