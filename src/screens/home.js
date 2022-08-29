@@ -13,6 +13,8 @@ import {
   SafeAreaView,
   ScrollView,
   RefreshControl,
+  FlatList,
+  Text,
 } from 'react-native';
 import {Card, Navbar, SearchInput} from '../components';
 import {product} from '../services';
@@ -45,16 +47,13 @@ export const Home = () => {
       <View style={styles.search}>
         <SearchInput />
       </View>
-      <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
-        }>
-        <View style={styles.list}>
-          {products.map((item, index) => (
-            <Card key={index} {...item} />
-          ))}
-        </View>
-      </ScrollView>
+      <FlatList
+        numColumns={2}
+        data={products}
+        renderItem={({item}) => <Card {...item} />}
+        scrollEnabled={true}
+        contentContainerStyle={styles.list}
+      />
     </SafeAreaView>
   );
 };
@@ -62,6 +61,7 @@ export const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // alignItems: 'center',
   },
   search: {
     elevation: 2,
@@ -71,8 +71,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
   },
   list: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    margin: 10,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
 });
