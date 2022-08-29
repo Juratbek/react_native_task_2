@@ -13,7 +13,7 @@ import {product as productApi} from '../services';
 
 export const ProductDetails = () => {
   const [product, setProduct] = useState({});
-  const {attributes} = product;
+  const {attributes, relationships} = product;
 
   const fetchData = () => {
     productApi
@@ -38,7 +38,7 @@ export const ProductDetails = () => {
       </View>
       <View style={styles.container}>
         <ScrollView style={{marginBottom: 40}}>
-          <Carousel />
+          <Carousel images={relationships?.images?.data} />
           <View style={styles.detail}>
             <Text>{attributes?.name}</Text>
             <View style={styles.text}>

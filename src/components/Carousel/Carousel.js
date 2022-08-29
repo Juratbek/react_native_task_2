@@ -1,22 +1,35 @@
 import React from 'react';
-import {View, Image, StyleSheet} from 'react-native';
+import {View, Image, StyleSheet, ScrollView} from 'react-native';
+import {IMG_BASE_URL} from '../../services/constants';
 
-export const Carousel = () => {
+const getStyle = (...styles) => {
+  return styles.reduce((res, style) => ({...res, ...style}), {});
+};
+
+export const Carousel = ({images = []}) => {
   return (
     <View style={styles.container}>
       <View>
         <Image source={require('../../assets/prev.png')} />
       </View>
-      <View style={styles.carouselItem}>
-        <Image
-          style={styles.image}
-          source={require('../../assets/xiaomi-big.png')}
-        />
+      <View style={styles.images}>
+        <ScrollView horizontal>
+          {images.map((image, index) => (
+            <View key={index} style={styles.carouselItem}>
+              <Image
+                style={styles.image}
+                source={{uri: `${IMG_BASE_URL}/${image.id}`}}
+              />
+            </View>
+          ))}
+        </ScrollView>
         <View style={styles.dots}>
-          <View style={styles.dot} />
-          <View style={{...styles.dot, ...styles.active}} />
-          <View style={styles.dot} />
-          <View style={styles.dot} />
+          {images.map((_, index) => (
+            <View
+              style={getStyle(styles.dot, index === 0 && styles.active)}
+              key={index}
+            />
+          ))}
         </View>
       </View>
       <View>
@@ -34,8 +47,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
   },
-  carouselItem: {
+  images: {
     alignItems: 'center',
+    flex: 1,
+  },
+  carouselItem: {
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   image: {
     width: 250,

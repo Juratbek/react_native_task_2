@@ -7,22 +7,12 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  RefreshControl,
-  FlatList,
-  Text,
-} from 'react-native';
+import {View, StyleSheet, SafeAreaView, FlatList} from 'react-native';
 import {Card, Navbar, SearchInput} from '../components';
 import {product} from '../services';
-import {wait} from '../utils/wait';
 
 export const Home = () => {
   const [products, setProducts] = useState([]);
-  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const fetchData = () => {
     product
@@ -34,12 +24,6 @@ export const Home = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
-  const onRefresh = () => {
-    setIsRefreshing(true);
-    fetchData();
-    wait(2000).then(() => setIsRefreshing(false));
-  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,7 +45,6 @@ export const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: 'center',
   },
   search: {
     elevation: 2,
