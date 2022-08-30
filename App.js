@@ -9,13 +9,19 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {View, Image, StyleSheet} from 'react-native';
-import {Home, ProductDetails} from './src/screens';
+import {
+  Home,
+  ProductDetails,
+  Favorites,
+  Profile,
+  ModalScreen,
+} from './src/screens';
 import {Basket, Burger} from './src/assets/icons';
 import {TouchableHighlight} from 'react-native-gesture-handler';
-import {Favorites} from './src/screens/favorite';
-import {Profile} from './src/screens/profile';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Drawer = createDrawerNavigator();
+const RootStack = createNativeStackNavigator();
 
 const screenOptions = {
   headerStyle: {
@@ -26,7 +32,7 @@ const screenOptions = {
 };
 
 const productDetailsOptions = {
-  // title: '',
+  title: '',
   headerRight: () => (
     <View style={styles.icons}>
       <Image source={require('./src/assets/heart.png')} />
@@ -41,31 +47,54 @@ const homeOptions = navigation => {
     headerLeft: () => (
       <TouchableHighlight
         underlayColor="transparent"
+        style={{marginLeft: 12}}
         onPress={() => navigation.openDrawer()}>
         <Burger />
       </TouchableHighlight>
     ),
-    headerRight: () => <Basket />,
+    headerRight: () => (
+      <View style={{marginRight: 12}}>
+        <Basket />
+      </View>
+    ),
   };
+};
+
+const DrawerNavigator = () => {
+  return (
+    <Drawer.Navigator screenOptions={screenOptions} initialRouteName="Home">
+      <Drawer.Screen
+        options={({navigation}) => homeOptions(navigation)}
+        name="Home"
+        component={Home}
+      />
+
+      <Drawer.Screen name="Profile" component={Profile} />
+      <Drawer.Screen name="Favorities" component={Favorites} />
+    </Drawer.Navigator>
+  );
 };
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Drawer.Navigator screenOptions={screenOptions} initialRouteName="Home">
-        <Drawer.Screen
-          options={({navigation}) => homeOptions(navigation)}
-          name="Home"
-          component={Home}
+      <RootStack.Navigator mode="modal">
+        <RootStack.Screen
+          name="Main"
+          component={DrawerNavigator}
+          options={{headerShown: false}}
         />
-        <Drawer.Screen
-          options={productDetailsOptions}
+        <RootStack.Screen
+          options={{...screenOptions, ...productDetailsOptions}}
           name="Product Details"
           component={ProductDetails}
         />
-        <Drawer.Screen name="Profile" component={Profile} />
-        <Drawer.Screen name="Favorities" component={Favorites} />
-      </Drawer.Navigator>
+        <RootStack.Screen
+          name="Modal"
+          options={{presentation: 'containedModal', headerShown: false}}
+          component={ModalScreen}
+        />
+      </RootStack.Navigator>
     </NavigationContainer>
   );
 };
