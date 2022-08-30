@@ -9,7 +9,7 @@ import {
 import {Carousel} from '../components';
 import {product as productApi} from '../services';
 
-export const ProductDetails = () => {
+export const ProductDetails = ({navigation}) => {
   const [product, setProduct] = useState({});
   const {attributes, relationships} = product;
 
@@ -47,7 +47,9 @@ export const ProductDetails = () => {
             <Text>{attributes?.description}</Text>
           </View>
         </ScrollView>
-        <TouchableOpacity style={styles.addBtn}>
+        <TouchableOpacity
+          style={styles.addBtn}
+          onPress={() => navigation.navigate('ProductAddedModal')}>
           <Text style={{color: 'white'}}>ADD TO CART</Text>
         </TouchableOpacity>
       </View>

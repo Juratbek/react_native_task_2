@@ -15,6 +15,7 @@ import {
   Favorites,
   Profile,
   ModalScreen,
+  ProductAddedScreen,
 } from './src/screens';
 import {Basket, Burger} from './src/assets/icons';
 import {TouchableHighlight} from 'react-native-gesture-handler';
@@ -62,7 +63,9 @@ const homeOptions = navigation => {
 
 const DrawerNavigator = () => {
   return (
-    <Drawer.Navigator screenOptions={screenOptions} initialRouteName="Home">
+    <Drawer.Navigator
+      screenOptions={screenOptions}
+      initialRouteName="Product Details">
       <Drawer.Screen
         options={({navigation}) => homeOptions(navigation)}
         name="Home"
@@ -78,7 +81,7 @@ const DrawerNavigator = () => {
 const App = () => {
   return (
     <NavigationContainer>
-      <RootStack.Navigator mode="modal">
+      <RootStack.Navigator mode="modal" initialRouteName="Product Details">
         <RootStack.Screen
           name="Main"
           component={DrawerNavigator}
@@ -93,6 +96,14 @@ const App = () => {
           name="Modal"
           options={{presentation: 'containedModal', headerShown: false}}
           component={ModalScreen}
+        />
+        <RootStack.Screen
+          name="ProductAddedModal"
+          options={{
+            presentation: 'containedTransparentModal',
+            headerShown: false,
+          }}
+          component={ProductAddedScreen}
         />
       </RootStack.Navigator>
     </NavigationContainer>
