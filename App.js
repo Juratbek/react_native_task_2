@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -14,8 +15,11 @@ import {
   ProductDetails,
   Favorites,
   Profile,
-  ModalScreen,
   ProductAddedScreen,
+  ChooseColorScreen,
+  LoginModal,
+  LoginScreen,
+  RegisterScreen,
 } from './src/screens';
 import {Basket, Burger} from './src/assets/icons';
 import {TouchableHighlight} from 'react-native-gesture-handler';
@@ -63,9 +67,7 @@ const homeOptions = navigation => {
 
 const DrawerNavigator = () => {
   return (
-    <Drawer.Navigator
-      screenOptions={screenOptions}
-      initialRouteName="Product Details">
+    <Drawer.Navigator screenOptions={screenOptions} initialRouteName="Main">
       <Drawer.Screen
         options={({navigation}) => homeOptions(navigation)}
         name="Home"
@@ -73,6 +75,8 @@ const DrawerNavigator = () => {
       />
 
       <Drawer.Screen name="Profile" component={Profile} />
+      <Drawer.Screen name="Login" component={LoginScreen} />
+      <Drawer.Screen name="Register" component={RegisterScreen} />
       <Drawer.Screen name="Favorities" component={Favorites} />
     </Drawer.Navigator>
   );
@@ -81,7 +85,7 @@ const DrawerNavigator = () => {
 const App = () => {
   return (
     <NavigationContainer>
-      <RootStack.Navigator mode="modal" initialRouteName="Product Details">
+      <RootStack.Navigator mode="modal" initialRouteName="Main">
         <RootStack.Screen
           name="Main"
           component={DrawerNavigator}
@@ -93,9 +97,12 @@ const App = () => {
           component={ProductDetails}
         />
         <RootStack.Screen
-          name="Modal"
-          options={{presentation: 'containedModal', headerShown: false}}
-          component={ModalScreen}
+          name="LoginModal"
+          options={{
+            presentation: 'containedTransparentModal',
+            headerShown: false,
+          }}
+          component={LoginModal}
         />
         <RootStack.Screen
           name="ProductAddedModal"
@@ -104,6 +111,14 @@ const App = () => {
             headerShown: false,
           }}
           component={ProductAddedScreen}
+        />
+        <RootStack.Screen
+          name="ChooseColorModal"
+          options={{
+            presentation: 'containedTransparentModal',
+            headerShown: false,
+          }}
+          component={ChooseColorScreen}
         />
       </RootStack.Navigator>
     </NavigationContainer>

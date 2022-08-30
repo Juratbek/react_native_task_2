@@ -4,3 +4,7 @@ export * from './favorite';
 export * from './profile';
 export * from './modal';
 export * from './product-added';
+export * from './choose-color';
+export * from './login-modal';
+export * from './login';
+export * from './register';

@@ -9,8 +9,12 @@ import {
 import {Carousel} from '../components';
 import {product as productApi} from '../services';
 
+const isLoggedIn = false;
+const COLORS = ['Red', 'Green', 'Blue'];
+
 export const ProductDetails = ({navigation}) => {
   const [product, setProduct] = useState({});
+  const [selectedColor, setSelectedColor] = useState();
   const {attributes, relationships} = product;
 
   const fetchData = () => {
@@ -21,6 +25,20 @@ export const ProductDetails = ({navigation}) => {
       .catch(console.error);
   };
 
+  const selectColor = color => {
+    setSelectedColor(color);
+  };
+
+  const getNavigationPage = () => {
+    if (!isLoggedIn) {
+      return 'LoginModal';
+    }
+    if (!selectedColor) {
+      return 'ChooseColorModal';
+    }
+    return 'ProductAddedModal';
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -28,7 +46,7 @@ export const ProductDetails = ({navigation}) => {
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
-        <ScrollView style={{marginBottom: 40}}>
+        <ScrollView style={styles.mb}>
           <Carousel images={relationships?.images?.data} />
           <View style={styles.detail}>
             <Text>{attributes?.name}</Text>
@@ -38,8 +56,18 @@ export const ProductDetails = ({navigation}) => {
           </View>
           <View style={styles.detail}>
             <Text style={styles.title}>Select Color</Text>
-            <View style={styles.color}>
-              <Text>Blue</Text>
+            <View style={styles.colors}>
+              {COLORS.map(color => (
+                <TouchableOpacity
+                  key={color}
+                  onPress={() => selectColor(color)}
+                  style={{
+                    ...styles.color,
+                    backgroundColor: color.toLowerCase(),
+                  }}>
+                  <Text style={styles.white}>{color}</Text>
+                </TouchableOpacity>
+              ))}
             </View>
           </View>
           <View style={styles.detail}>
@@ -49,8 +77,8 @@ export const ProductDetails = ({navigation}) => {
         </ScrollView>
         <TouchableOpacity
           style={styles.addBtn}
-          onPress={() => navigation.navigate('ProductAddedModal')}>
-          <Text style={{color: 'white'}}>ADD TO CART</Text>
+          onPress={() => navigation.navigate(getNavigationPage())}>
+          <Text style={styles.white}>ADD TO CART</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -98,13 +126,15 @@ const styles = StyleSheet.create({
     textDecorationLine: 'line-through',
     marginLeft: 10,
   },
+  colors: {
+    flexDirection: 'row',
+  },
   color: {
-    backgroundColor: '#eeecec',
     padding: 5,
     paddingRight: 10,
     paddingLeft: 10,
-    width: 50,
     height: 30,
+    marginRight: 10,
   },
   addBtn: {
     backgroundColor: '#008ACE',
@@ -116,5 +146,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     borderRadius: 4,
+  },
+  white: {
+    color: 'white',
+  },
+  mb: {
+    marginBottom: 40,
   },
 });
