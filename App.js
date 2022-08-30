@@ -5,51 +5,67 @@
  * @format
  * @flow strict-local
  */
-
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import {View, Image, StyleSheet} from 'react-native';
 import {Home, ProductDetails} from './src/screens';
 import {Basket, Burger} from './src/assets/icons';
+import {TouchableHighlight} from 'react-native-gesture-handler';
+import {Favorites} from './src/screens/favorite';
+import {Profile} from './src/screens/profile';
 
-const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
+
+const screenOptions = {
+  headerStyle: {
+    backgroundColor: '#008ACE',
+  },
+  headerTintColor: '#fff',
+  headerTitleAlign: 'center',
+};
+
+const productDetailsOptions = {
+  // title: '',
+  headerRight: () => (
+    <View style={styles.icons}>
+      <Image source={require('./src/assets/heart.png')} />
+      <Basket />
+    </View>
+  ),
+};
+
+const homeOptions = navigation => {
+  return {
+    title: 'Ecommerce Store',
+    headerLeft: () => (
+      <TouchableHighlight
+        underlayColor="transparent"
+        onPress={() => navigation.openDrawer()}>
+        <Burger />
+      </TouchableHighlight>
+    ),
+    headerRight: () => <Basket />,
+  };
+};
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: '#008ACE',
-          },
-          headerTintColor: '#fff',
-          headerTitleAlign: 'center',
-        }}
-        initialRouteName="Home">
-        <Stack.Screen
-          options={{
-            title: 'Ecommerce Store',
-            headerLeft: () => <Burger />,
-            headerRight: () => <Basket />,
-          }}
+      <Drawer.Navigator screenOptions={screenOptions} initialRouteName="Home">
+        <Drawer.Screen
+          options={({navigation}) => homeOptions(navigation)}
           name="Home"
           component={Home}
         />
-        <Stack.Screen
-          options={{
-            title: '',
-            headerRight: () => (
-              <View style={styles.icons}>
-                <Image source={require('./src/assets/heart.png')} />
-                <Basket />
-              </View>
-            ),
-          }}
-          name="ProductDetails"
+        <Drawer.Screen
+          options={productDetailsOptions}
+          name="Product Details"
           component={ProductDetails}
         />
-      </Stack.Navigator>
+        <Drawer.Screen name="Profile" component={Profile} />
+        <Drawer.Screen name="Favorities" component={Favorites} />
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 };

@@ -10,7 +10,7 @@ export const Card = ({attributes, relationships, navigation}) => {
   } = relationships;
 
   const clickHandler = () => {
-    navigation.navigate('ProductDetails');
+    navigation.navigate('Product Details');
   };
 
   return (
